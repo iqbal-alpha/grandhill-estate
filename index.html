@@ -20,18 +20,57 @@
   <link rel="stylesheet" href="grandhill-journeys.css">
   <style>
     html, body {
-      background-color: #1e1d1a;
-      color: #f4f1ea;
+      background-color: #171d1c;
+      color: #eadac5;
       margin: 0;
     }
-    .entrance, .skip-intro {
+    .entrance {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      background: #171d1c;
+      color: #eadac5;
+    }
+    .entrance__surface {
+      position: absolute;
+      inset: 0;
+      background: #171d1c;
+    }
+    .entrance__identity {
+      position: relative;
+      text-align: center;
+      padding: 30px;
+      width: 100%;
+    }
+    .entrance__symbol {
+      display: block;
+      width: 120px;
+      height: 140px;
+      margin: 0 auto 24px;
+    }
+    .entrance__name {
+      margin: 0 auto 22px;
+      max-width: 420px;
+      width: 40vw;
+    }
+    .skip-intro {
+      display: flex;
+      position: fixed;
+      bottom: 28px;
+      right: 5vw;
+      z-index: 101;
+      border: 0;
+      background: none;
+      color: #ddccb5;
+      font-size: 0.8125rem;
+      cursor: pointer;
+    }
+    .intro-done .entrance, .intro-done .skip-intro,
+    .intro-safe .entrance, .intro-safe .skip-intro {
       display: none !important;
-    }
-    html.intro-playing .entrance {
-      display: flex !important;
-    }
-    html.intro-playing .skip-intro {
-      display: block !important;
     }
   </style>
   <script>document.documentElement.classList.add('js');window.grandhillIntroExpired=false;setTimeout(function(){window.grandhillIntroExpired=true;if(window.grandhillFinishIntro){window.grandhillFinishIntro()}else{document.documentElement.classList.add('intro-safe');document.documentElement.classList.remove('intro-playing')}},4500)</script>
@@ -51,7 +90,7 @@
     <div class="site-atmosphere__light"></div>
   </div>
   <a class="skip-link" href="#projeto">Skip to content</a>
-  <div class="entrance" style="display: none;" aria-hidden="true">
+  <div class="entrance" aria-hidden="true">
     <div class="entrance__surface"></div>
     <div class="entrance__light"></div>
     <div class="entrance__identity">
@@ -80,7 +119,7 @@
       <span class="entrance__caption">A REFINED PERSPECTIVE ON ELEVATED LIVING</span>
     </div>
   </div>
-  <button class="skip-intro" type="button" style="display: none;">Skip opening <span aria-hidden="true">↗</span></button>
+  <button class="skip-intro" type="button">Skip opening <span aria-hidden="true">↗</span></button>
   <header class="header">
     <a class="wordmark" href="#inicio" aria-label="Exclusive Grandhill Residence, Home">
       <img class="brand-symbol" src="assets/grandhill-symbol.svg" alt="" width="120" height="140">

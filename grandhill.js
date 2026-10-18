@@ -2,7 +2,7 @@
   'use strict';
   const root=document.documentElement, reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const motionButton=document.querySelector('.motion-toggle'), header=document.querySelector('.header');
-  let introTimeline, heroTimeline, paused=reduced.matches, introStarted=false, introSettled=!!window.grandhillIntroExpired, introActive=false, introSafety;
+  let introTimeline, heroTimeline, paused=false, introStarted=false, introSettled=false, introActive=false, introSafety;
   let revealTweens=[],photoTweens=[];
   let nightReady=false;
   const heroState={presence:1,night:0};
@@ -19,11 +19,11 @@
   }
   window.grandhillFinishIntro=finishIntro;
   function startIntro(force=false){
-    if(!force&&(introStarted||introSettled||window.grandhillIntroExpired))return;introStarted=true;
+    if(!force&&(introStarted||introSettled))return;introStarted=true;
     if(!force&&location.hash&&location.hash!=='#inicio'){
       finishIntro();document.fonts.ready.then(()=>requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView({behavior:'instant',block:'start'})));return;
     }
-    if(!hasGsap||reduced.matches||paused){finishIntro();return;}
+    if(!hasGsap){finishIntro();return;}
     introActive=true;introSettled=false;introSafety=setTimeout(finishIntro,4200);
     root.classList.remove('intro-done','intro-safe');root.classList.add('intro-playing');
     setIntroInert(true);
