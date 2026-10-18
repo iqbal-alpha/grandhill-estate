@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 90" fill="none">
+  <title>GRANDHILL</title>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Marcellus&amp;display=swap');
+      .brand-title {
+        font-family: 'Marcellus', 'Cinzel', Georgia, serif;
+        font-size: 44px;
+        letter-spacing: 0.26em;
+        text-anchor: middle;
+        text-transform: uppercase;
+        fill: url(#gh-wordmark-optical);
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+      }
+      .brand-sub {
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 10.5px;
+        letter-spacing: 0.48em;
+        text-anchor: middle;
+        text-transform: uppercase;
+        fill: #d5c2a8;
+        opacity: 0.88;
+      }
+    </style>
+    <linearGradient id="gh-wordmark-optical" x1="24" y1="90" x2="516" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ddd0bc"/>
+      <stop offset=".2" stop-color="#f4eee2"/>
+      <stop offset=".39" stop-color="#fffaf1"/>
+      <stop offset=".415" stop-color="#d2b999"/>
+      <stop offset=".455" stop-color="#eee2cd"/>
+      <stop offset=".67" stop-color="#faf6ed"/>
+      <stop offset=".83" stop-color="#d5c2a8"/>
+      <stop offset="1" stop-color="#f6efe4"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <!-- Subtitle: EXCLUSIVE RESIDENCE -->
+    <text x="280" y="24" class="brand-sub">EXCLUSIVE</text>
+    <!-- Main wordmark: GRANDHILL -->
+    <text x="290" y="68" class="brand-title">GRANDHILL</text>
+    <!-- Underline accent -->
+    <line x1="180" y1="84" x2="380" y2="84" stroke="url(#gh-wordmark-optical)" stroke-width="0.8" opacity="0.6"/>
+  </g>
+</svg>

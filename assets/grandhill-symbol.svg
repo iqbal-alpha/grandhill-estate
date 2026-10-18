@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
+  <title>Exclusive Grandhill Residence — Symbol</title>
+  <defs>
+    <linearGradient id="gh-symbol-edge" x1="12" y1="128" x2="106" y2="16" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ad8d70"/>
+      <stop offset=".24" stop-color="#d4c2a9"/>
+      <stop offset=".37" stop-color="#f8f2e7"/>
+      <stop offset=".405" stop-color="#fffbf4"/>
+      <stop offset=".435" stop-color="#c6ad8f"/>
+      <stop offset=".69" stop-color="#b69575"/>
+      <stop offset=".82" stop-color="#eee6d7"/>
+      <stop offset="1" stop-color="#c4a786"/>
+    </linearGradient>
+    <linearGradient id="gh-symbol-bearing" x1="44" y1="91" x2="73" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a98869"/>
+      <stop offset=".43" stop-color="#c8b090"/>
+      <stop offset=".48" stop-color="#f7f0e4"/>
+      <stop offset=".51" stop-color="#e0ceaf"/>
+      <stop offset="1" stop-color="#faf6ec"/>
+    </linearGradient>
+    <linearGradient id="gh-symbol-crest" x1="60" y1="18" x2="60" y2="115" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity=".4"/>
+      <stop offset=".5" stop-color="#cbb18d" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#b8cac6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Architectural Facet & Crystal Apex -->
+  <polygon points="60,14 105,115 15,115" fill="url(#gh-symbol-crest)"/>
+  <path d="M15 115 60 14 105 115" stroke="url(#gh-symbol-edge)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Central Diamond / Pinnacle Chevron -->
+  <path d="M60 38 78 72 60 106 42 72Z" stroke="url(#gh-symbol-edge)" stroke-width="1.2" fill="none"/>
+  <polygon points="60,46 72,72 60,98 48,72" fill="url(#gh-symbol-bearing)"/>
+  <!-- Base lines & horizon tick marks -->
+  <path d="M23 116H97M60 6V14M8 116H15M105 116H112" stroke="url(#gh-symbol-edge)" stroke-width="1.2"/>
+  <!-- Celestial arc -->
+  <path d="M30 125a54 54 0 0 0 60-84" stroke="url(#gh-symbol-edge)" stroke-width=".8" opacity=".65" stroke-dasharray="2 2"/>
+</svg>
