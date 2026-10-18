@@ -87,7 +87,7 @@
   host.classList.toggle('essence-scroll',!compact.matches);cancelTransition();settle(active);queuePaint();
  }
  listen(window,'scroll',queuePaint,{passive:true});listen(window,'resize',queuePaint,{passive:true});
- listen(window,'azimute:motion',reconcile);listen(document,'visibilitychange',reconcile);listen(reduced,'change',reconcile);listen(compact,'change',updateLayout);
+ listen(window,'grandhill:motion',reconcile);listen(document,'visibilitychange',reconcile);listen(reduced,'change',reconcile);listen(compact,'change',updateLayout);
  const observer=new IntersectionObserver(entries=>{
   visible=entries[0].isIntersecting;
   if(visible){panels.forEach((_,index)=>decode(index).catch(()=>{}));queuePaint();}

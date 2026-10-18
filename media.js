@@ -1,6 +1,6 @@
 // Exclusive Grandhill Residence - Media Collection
 // Paired horizontal/vertical architectural perspectives & spatial layout plans.
-window.AZIMUTE_MEDIA = [
+window.GRANDHILL_MEDIA = [
   {
     "id": 22,
     "slug": "estar-integrado",

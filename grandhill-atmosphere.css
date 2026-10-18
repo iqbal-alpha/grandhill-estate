@@ -1,9 +1,9 @@
 /* One atmospheric field beneath the editorial surfaces; photography keeps its own pixels. */
-body{isolation:isolate;background:#202725}
+body{isolation:isolate;background:#202725;color:#f4eee2}
 body>main,body>.footer{position:relative;z-index:1}
 .site-atmosphere{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;contain:paint;isolation:isolate;background-color:#272d2b}
 .site-atmosphere__crystal,.site-atmosphere__veil,.site-atmosphere__light{position:absolute;inset:-10% -8%;pointer-events:none;transform-origin:50% 50%;backface-visibility:hidden;will-change:transform,opacity}
-.site-atmosphere__crystal{background:url(assets/crystal/azimute-crystal-universe.webp) 52% 48%/cover no-repeat;opacity:.68;transform:translate3d(0,0,0) scale(1.025)}
+.site-atmosphere__crystal{background:url(assets/crystal/grandhill-universe.webp) 52% 48%/cover no-repeat;opacity:.68;transform:translate3d(0,0,0) scale(1.025)}
 .site-atmosphere__veil{inset:-12%;background:linear-gradient(117deg,rgba(37,50,50,.62) 5%,transparent 38%,rgba(134,103,74,.24) 57%,rgba(17,38,44,.48) 86%);opacity:.52;transform:translate3d(0,0,0)}
 .site-atmosphere__light{inset:-18%;background:linear-gradient(109deg,transparent 18%,rgba(205,182,143,0) 35%,rgba(224,202,165,.19) 48%,rgba(145,175,177,.075) 61%,transparent 77%);opacity:.45;transform:translate3d(0,0,0)}
 .site-atmosphere.is-resting>div{will-change:auto}

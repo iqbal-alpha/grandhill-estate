@@ -2,11 +2,11 @@
   'use strict';
   const root=document.documentElement, reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const motionButton=document.querySelector('.motion-toggle'), header=document.querySelector('.header');
-  let introTimeline, heroTimeline, paused=reduced.matches, introStarted=false, introSettled=!!window.azimuteIntroExpired, introActive=false, introSafety;
+  let introTimeline, heroTimeline, paused=reduced.matches, introStarted=false, introSettled=!!window.grandhillIntroExpired, introActive=false, introSafety;
   let revealTweens=[],photoTweens=[];
   let nightReady=false;
   const heroState={presence:1,night:0};
-  function publishHero(){window.AZIMUTE_HERO_PRESENCE=heroState.presence;window.AZIMUTE_HERO_NIGHT=heroState.night;root.style.setProperty('--hero-presence',heroState.presence);root.style.setProperty('--hero-night',nightReady?heroState.night:0);window.dispatchEvent(new CustomEvent('azimute:hero',{detail:{...heroState}}));}
+  function publishHero(){window.GRANDHILL_HERO_PRESENCE=heroState.presence;window.GRANDHILL_HERO_NIGHT=heroState.night;root.style.setProperty('--hero-presence',heroState.presence);root.style.setProperty('--hero-night',nightReady?heroState.night:0);window.dispatchEvent(new CustomEvent('grandhill:hero',{detail:{...heroState}}));}
   document.querySelector('.hero__image--night').decode().then(()=>{nightReady=true;publishHero();}).catch(()=>{});
   publishHero();
   const hasGsap=!!window.gsap, hasScroll=hasGsap&&!!window.ScrollTrigger;
@@ -17,9 +17,9 @@
     setIntroInert(false);
     if(wasActive&&hasGsap){gsap.set(['.hero__image','.hero__content','.header','.hero__scroll'],{clearProps:'opacity,visibility,transform'});heroState.presence=1;publishHero();heroTimeline?.scrollTrigger?.refresh();heroTimeline?.progress(heroTimeline.scrollTrigger.progress);}
   }
-  window.azimuteFinishIntro=finishIntro;
+  window.grandhillFinishIntro=finishIntro;
   function startIntro(force=false){
-    if(!force&&(introStarted||introSettled||window.azimuteIntroExpired))return;introStarted=true;
+    if(!force&&(introStarted||introSettled||window.grandhillIntroExpired))return;introStarted=true;
     if(!force&&location.hash&&location.hash!=='#inicio'){
       finishIntro();document.fonts.ready.then(()=>requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView({behavior:'instant',block:'start'})));return;
     }
@@ -69,7 +69,7 @@
     const enabled=hasScroll&&!reduced.matches;
     root.classList.toggle('motion-paused',paused||reduced.matches);root.classList.toggle('scroll-motion',enabled);document.querySelector('.hero__content').inert=false;
     motionButton.setAttribute('aria-pressed',String(paused));motionButton.setAttribute('aria-label',paused?'Enable motion':'Reduce motion');motionButton.querySelector('.motion-icon').textContent=paused?'▷':'Ⅱ';
-    window.dispatchEvent(new Event('azimute:motion'));
+    window.dispatchEvent(new Event('grandhill:motion'));
     if(!hasScroll||reduced.matches){heroState.presence=1;heroState.night=0;publishHero();return;}
     gsap.registerPlugin(ScrollTrigger);
 
@@ -78,7 +78,7 @@
       .to(['.hero__side','.hero__scroll'],{opacity:0,duration:.2},0)
       .fromTo(heroState,{night:0},{night:1,duration:.39,ease:'sine.inOut',onUpdate:publishHero},.04)
       .fromTo(heroState,{presence:1},{presence:0,duration:.34,ease:'sine.inOut',onUpdate:publishHero},.66)
-      .to('.hero__reframe',{opacity:1,duration:.17},.82);
+      .to('.hero__reframe',{opacity:1,duration:.12},.78).to('.hero__reframe',{opacity:0,duration:.08},.92);
   }
   function configureReveals(){
     revealTweens.forEach(tween=>{tween.scrollTrigger?.kill();tween.revert();});revealTweens=[];
@@ -91,7 +91,7 @@
     motionButton.setAttribute('aria-pressed',String(paused));motionButton.setAttribute('aria-label',paused?'Enable motion':'Reduce motion');motionButton.querySelector('.motion-icon').textContent=paused?'▷':'Ⅱ';
     // Pausing ambient movement must not change document height or the reading position.
     if(heroTimeline?.scrollTrigger){const scrub=heroTimeline.scrollTrigger.getTween();if(scrub){scrub.duration(paused?0:.65);if(paused)scrub.progress(1);else scrub.resume();}}
-    configureReveals();window.dispatchEvent(new Event('azimute:motion'));
+    configureReveals();window.dispatchEvent(new Event('grandhill:motion'));
   });
   reduced.addEventListener('change',()=>{paused=reduced.matches;if(introActive)finishIntro();configureMotion();configureReveals();if(hasScroll)ScrollTrigger.refresh();});
   let sizeTimer,lastWidth=innerWidth;addEventListener('resize',()=>{clearTimeout(sizeTimer);sizeTimer=setTimeout(()=>{if(innerWidth>1000)closeMenu();if(Math.abs(innerWidth-lastWidth)>2){lastWidth=innerWidth;configureMotion();}updateHeader();},220);});
@@ -99,7 +99,7 @@
   configureMotion();updateHeader();
   const hero=document.querySelector('.hero__image');Promise.race([hero.decode().catch(()=>{}),new Promise(resolve=>setTimeout(resolve,900))]).then(()=>startIntro());
   root.classList.add('navigation-ready');
-  const gallery=document.querySelector('.gallery'),galleryImage=document.querySelector('#gallery-image'),allItems=window.AZIMUTE_MEDIA||[];
+  const gallery=document.querySelector('.gallery'),galleryImage=document.querySelector('#gallery-image'),allItems=window.GRANDHILL_MEDIA||[];
   const selection=allItems.map(item=>item.id),portraitView=matchMedia('(max-width:700px)');
   function categoryItems(category){return category==='selection'?selection.map(id=>allItems.find(item=>item.id===id)).filter(Boolean):allItems.filter(item=>item.category===category);}
   function assignPhoto(image,item,portrait=false,sizes='100vw'){
@@ -114,6 +114,7 @@
   const playButton=document.querySelector('.gallery-play'),viewer=document.querySelector('.photo-viewer');
   const incomingLayer=document.createElement('img');
   incomingLayer.className='gallery-incoming';incomingLayer.alt='';incomingLayer.setAttribute('aria-hidden','true');incomingLayer.width=1280;incomingLayer.height=721;
+  incomingLayer.src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1672 941'%3E%3C/svg%3E";
   incomingLayer.style.opacity='0';incomingLayer.style.visibility='hidden';incomingLayer.style.pointerEvents='none';
   document.querySelector('.gallery__stage').append(incomingLayer);
   function updatePlay(){playButton.setAttribute('aria-pressed',String(autoPlay));playButton.setAttribute('aria-label',autoPlay?'Pause slideshow':'Play slideshow');playButton.firstElementChild.textContent=autoPlay?'Ⅱ':'▷';}
@@ -178,7 +179,7 @@
     viewerImage.removeAttribute('srcset');viewerImage.src=source;viewerImage.alt=alt;
     const hasPortrait=!!viewerItem?.portrait;if(landscapeButton){landscapeButton.hidden=!hasPortrait;landscapeButton.setAttribute('aria-pressed','true');}if(portraitButton){portraitButton.hidden=!hasPortrait;portraitButton.setAttribute('aria-pressed','false');}
     viewer.classList.remove('is-portrait');if(viewerNote)viewerNote.textContent=viewerNoteText;
-    document.querySelector('#viewer-title').textContent=viewerItem?.title||'Exclusive Grandhill Residence — Architectural View';viewer.showModal();root.classList.add('viewer-open');scheduleAuto();window.dispatchEvent(new Event('azimute:motion'));showViewerOrientation(portrait);
+    document.querySelector('#viewer-title').textContent=viewerItem?.title||'Exclusive Grandhill Residence — Architectural View';viewer.showModal();root.classList.add('viewer-open');scheduleAuto();window.dispatchEvent(new Event('grandhill:motion'));showViewerOrientation(portrait);
   }
   document.querySelectorAll('.photo-open').forEach(button=>button.addEventListener('click',()=>{
     // Settle only an explicit, already decoded request before taking the modal snapshot.
@@ -187,16 +188,16 @@
     const item=button.closest('.gallery')?currentGalleryItem:allItems.find(item=>item.id===Number(image.dataset.mediaId||button.dataset.mediaId)||image.getAttribute('src')===item.src);
     openPhotoViewer(item,button,image.currentSrc||image.src,image.alt,portraitView.matches);
   }));
-  window.addEventListener('azimute:open-media',event=>{
+  window.addEventListener('grandhill:open-media',event=>{
     const item=allItems.find(photo=>photo.id===Number(event.detail?.id));if(!item)return;
     const origin=event.detail?.origin?.nodeType===1?event.detail.origin:document.querySelector('.architecture-open-photo');
     openPhotoViewer(item,origin,item.texture||item.src,item.alt,!!event.detail?.portrait);
   });
   viewer.querySelector('.photo-viewer__close').addEventListener('click',()=>viewer.close());viewer.addEventListener('click',e=>{if(e.target===viewer){const b=viewer.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)viewer.close();}});
-  viewer.addEventListener('close',()=>{viewerRequest++;viewer.removeAttribute('aria-busy');root.classList.remove('viewer-open');viewerOrigin?.focus({preventScroll:true});scheduleAuto();window.dispatchEvent(new Event('azimute:motion'));});
-  window.addEventListener('azimute:motion',()=>{if(paused||reduced.matches||viewer.open||document.hidden){clearTimeout(autoTimer);if(pending?.manual&&pending.ready)finishPhoto(pending.request);else restorePhoto();}scheduleAuto();});
+  viewer.addEventListener('close',()=>{viewerRequest++;viewer.removeAttribute('aria-busy');root.classList.remove('viewer-open');viewerOrigin?.focus({preventScroll:true});scheduleAuto();window.dispatchEvent(new Event('grandhill:motion'));});
+  window.addEventListener('grandhill:motion',()=>{if(paused||reduced.matches||viewer.open||document.hidden){clearTimeout(autoTimer);if(pending?.manual&&pending.ready)finishPhoto(pending.request);else restorePhoto();}scheduleAuto();});
   reduced.addEventListener('change',()=>{if(reduced.matches)stopAuto();});
   updatePlay();
   root.classList.toggle('tab-inactive',document.hidden);
-  document.addEventListener('visibilitychange',()=>{root.classList.toggle('tab-inactive',document.hidden);scheduleAuto();window.dispatchEvent(new Event('azimute:motion'));});
+  document.addEventListener('visibilitychange',()=>{root.classList.toggle('tab-inactive',document.hidden);scheduleAuto();window.dispatchEvent(new Event('grandhill:motion'));});
 })();

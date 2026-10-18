@@ -23,7 +23,7 @@
   ];
   const sections=definitions.map(([selector,theme,ownsScene])=>({element:document.querySelector(selector),selector,theme,ownsScene})).filter(section=>section.element);
   let stops=[],width=innerWidth,height=innerHeight,maxScroll=1,scroll=window.scrollY||0,progress=0,motionProgress=0;
-  let heroPresence=Number.isFinite(window.AZIMUTE_HERO_PRESENCE)?clamp(window.AZIMUTE_HERO_PRESENCE):1;
+  let heroPresence=Number.isFinite(window.GRANDHILL_HERO_PRESENCE)?clamp(window.GRANDHILL_HERO_PRESENCE):1;
   let raf=0,layoutDirty=true,measurementQueued=false,last=0,time=0,frames=0,disposed=false,suspended=false;
   let target=definitions[0][1].slice(),current=target.slice(),activeChapter='.hero';
   const removers=[],styleCache=new WeakMap();
@@ -94,8 +94,8 @@
   listen(window,'scroll',reconcile,{passive:true});
   listen(window,'resize',invalidate,{passive:true});
   listen(window,'load',invalidate);
-  listen(window,'azimute:motion',reconcile);
-  listen(window,'azimute:hero',event=>{const next=event.detail?.presence;if(!Number.isFinite(next))return;const wasOpaque=heroPresence>=.995;heroPresence=clamp(next);if(wasOpaque!==(heroPresence>=.995))reconcile();});
+  listen(window,'grandhill:motion',reconcile);
+  listen(window,'grandhill:hero',event=>{const next=event.detail?.presence;if(!Number.isFinite(next))return;const wasOpaque=heroPresence>=.995;heroPresence=clamp(next);if(wasOpaque!==(heroPresence>=.995))reconcile();});
   listen(document,'visibilitychange',()=>{if(!document.hidden)layoutDirty=true;reconcile();});
   listen(reduced,'change',reconcile);
   const resizeObserver=typeof ResizeObserver==='function'?new ResizeObserver(invalidate):null;
@@ -109,6 +109,6 @@
   }
   listen(window,'pagehide',event=>{suspended=true;stop();if(!event.persisted)dispose();});
   listen(window,'pageshow',()=>{suspended=false;layoutDirty=true;reconcile();});
-  window.AZIMUTE_ATMOSPHERE=Object.freeze({getState:()=>({running:!!raf,frames,phase:time,progress,chapter:activeChapter,reduced:reduced.matches,paused:root.classList.contains('motion-paused'),hidden:document.hidden,ownScene:ownsViewport(),disposed}),dispose});
+  window.GRANDHILL_ATMOSPHERE=Object.freeze({getState:()=>({running:!!raf,frames,phase:time,progress,chapter:activeChapter,reduced:reduced.matches,paused:root.classList.contains('motion-paused'),hidden:document.hidden,ownScene:ownsViewport(),disposed}),dispose});
   selectTheme();motionProgress=progress;paintTheme();if(!reduced.matches)paintMotion();reconcile();
 })();

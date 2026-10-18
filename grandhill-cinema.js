@@ -3,9 +3,9 @@ const chapter=document.querySelector('.architecture-chapter');
 const host=chapter.querySelector('.architectural-depth'),sticky=chapter.querySelector('.architecture-sticky'),root=document.documentElement;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const tourIds=[22,16,17,15,13,8,21,24,19,3,4,23,26,31,30,29,32];
-const mediaById=new Map((window.AZIMUTE_MEDIA||[]).map(item=>[item.id,item]));
+const mediaById=new Map((window.GRANDHILL_MEDIA||[]).map(item=>[item.id,item]));
 let visible=false,booting=false,initialized=false,failed=false,disposed=false,currentIndex=0,refresh=()=>{},destroy=()=>{},jump=null;
-const fallback=document.createElement('img');fallback.className='architecture-still';fallback.alt='';fallback.decoding='async';host.append(fallback);
+const fallback=document.createElement('img');fallback.className='architecture-still';fallback.alt='Architectural perspective';fallback.src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1672 941'%3E%3C/svg%3E";fallback.decoding='async';host.append(fallback);
 const controls=document.createElement('div');controls.className='architecture-controls';controls.setAttribute('aria-label','Explore the 17 architectural perspectives');
 const caption=document.createElement('div');caption.className='architecture-photo-caption';
 const count=document.createElement('span');count.className='architecture-count';
@@ -34,7 +34,7 @@ function syncPhotoControl(announce=false){
 }
 function openMedia(id,origin=openPhoto){
   if(disposed||document.hidden||root.classList.contains('viewer-open')||!mediaById.has(id))return;
-  window.dispatchEvent(new CustomEvent('azimute:open-media',{detail:{id,origin}}));
+  window.dispatchEvent(new CustomEvent('grandhill:open-media',{detail:{id,origin}}));
 }
 function choose(index){currentIndex=Math.max(0,Math.min(tourIds.length-1,index));syncPhotoControl(true);if(jump&&!reduced.matches&&!failed)jump(currentIndex);}
 const openCurrentPhoto=()=>openMedia(tourIds[currentIndex]);
@@ -48,7 +48,7 @@ function reconcile(){
   if(visible&&animated()&&!booting&&!initialized&&!failed)start();if(changed)syncPhotoControl();refresh();if(changed)window.ScrollTrigger?.refresh();
 }
 const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;reconcile();},{rootMargin:'180px'});observer.observe(chapter);
-addEventListener('azimute:motion',reconcile);document.addEventListener('visibilitychange',reconcile);reduced.addEventListener('change',reconcile);
+addEventListener('grandhill:motion',reconcile);document.addEventListener('visibilitychange',reconcile);reduced.addEventListener('change',reconcile);
 
 async function start(){
   booting=true;
@@ -63,7 +63,7 @@ async function start(){
   destroy=dispose;
   try{
     if(!window.ScrollTrigger)throw Error('Scroll unavailable');
-    const [T,{RoomEnvironment},S]=await Promise.all([import('./vendor/three.module.min.js'),import('./vendor/RoomEnvironment.js'),import('./azimute-sculpture.js')]);
+    const [T,{RoomEnvironment},S]=await Promise.all([import('./vendor/three.module.min.js'),import('./vendor/RoomEnvironment.js'),import('./grandhill-sculpture.js')]);
     if(dead||disposed||!visible||!animated()){booting=false;dispose();return;}
     renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});
     renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.setClearColor(0x181c1c);renderer.transmissionResolutionScale=.55;
@@ -77,7 +77,7 @@ async function start(){
     const light=new T.PointLight(0xffc48a,115,23,2);scene.add(light);
     const sculpture=S.createSculpture(new Map(),own);scene.add(sculpture.group);
     const loader=new T.TextureLoader(),textureRecords=new Map(),unavailable=new Set();let inflight=0,textureCenter=0;
-    stats={frames:0,active:false,photographs:S.PHOTOGRAPHS.length,quality:1,averageFrameMs:0,p95FrameMs:0,longFrames:0,drawingBufferPixels:0,residentTextures:0,residentPhotoBytes:0,inflightTextures:0,highResolutionTextures:0,currentPhotoId:tourIds[0],currentPhotoIndex:0,progress:0};window.AZIMUTE_CINEMA_STATS=stats;
+    stats={frames:0,active:false,photographs:S.PHOTOGRAPHS.length,quality:1,averageFrameMs:0,p95FrameMs:0,longFrames:0,drawingBufferPixels:0,residentTextures:0,residentPhotoBytes:0,inflightTextures:0,highResolutionTextures:0,currentPhotoId:tourIds[0],currentPhotoIndex:0,progress:0};window.GRANDHILL_CINEMA_STATS=stats;
     const active=()=>visible&&canDisplay()&&!dead;
     let last=0,elapsed=0,phase=0,drawPhase=0,drawn=false,quality=1,samples=[],lastWidth=0,lastHeight=0;
     const pointer={x:0,y:0},target={x:0,y:0};
@@ -128,7 +128,7 @@ async function start(){
         }).catch(()=>{unavailable.add(key);}).finally(()=>{inflight--;loading.delete(key);if(!dead){updateTextureStats();pumpTextures();}});
       }
     }
-    loadTexture('assets/crystal/azimute-crystal-universe.webp').then(texture=>{if(dead)return;backdrop.material.uniforms.uTexture.value=texture;backdrop.material.uniforms.uHasTexture.value=1;backdrop.material.uniforms.uImageAspect.value=texture.image.width/texture.image.height;requestDraw();}).catch(()=>{});
+    loadTexture('assets/crystal/grandhill-universe.webp').then(texture=>{if(dead)return;backdrop.material.uniforms.uTexture.value=texture;backdrop.material.uniforms.uHasTexture.value=1;backdrop.material.uniforms.uImageAspect.value=texture.image.width/texture.image.height;requestDraw();}).catch(()=>{});
 
     function resize(){
       if(dead)return;const box=host.getBoundingClientRect(),width=Math.max(1,Math.round(box.width)),height=Math.max(1,Math.round(box.height));
@@ -184,11 +184,11 @@ async function start(){
     refresh=()=>{if(active()){unavailable.clear();pumpTextures();requestDraw();}else if(raf){cancelAnimationFrame(raf);raf=0;stats.active=false;canvas.dataset.renderActive='false';}};
     const contextLost=event=>{event.preventDefault();failed=true;chapter.classList.remove('cinema-ready');chapter.classList.add('cinema-fallback');syncPhotoControl();dispose();ScrollTrigger.refresh();};canvas.addEventListener('webglcontextlost',contextLost,{once:true});cleanups.push(()=>canvas.removeEventListener('webglcontextlost',contextLost));
     initialized=true;booting=false;syncPhotoControl();pumpTextures();refresh();
-  }catch(error){failed=true;booting=false;dispose();chapter.classList.remove('cinema-ready');chapter.classList.add('cinema-fallback');syncPhotoControl();window.ScrollTrigger?.refresh();console.info('Azimute: todas as imagens continuam disponíveis nos controles.');}
+  }catch(error){failed=true;booting=false;dispose();chapter.classList.remove('cinema-ready');chapter.classList.add('cinema-fallback');syncPhotoControl();window.ScrollTrigger?.refresh();console.info('Grandhill: all perspectives remain accessible.');}
 }
 function pageHide(event){
   if(event.persisted){visible=false;refresh();return;}disposed=true;observer.disconnect();destroy();controls.remove();fallback.remove();
-  removeEventListener('azimute:motion',reconcile);document.removeEventListener('visibilitychange',reconcile);reduced.removeEventListener('change',reconcile);removeEventListener('pagehide',pageHide);removeEventListener('pageshow',pageShow);
+  removeEventListener('grandhill:motion',reconcile);document.removeEventListener('visibilitychange',reconcile);reduced.removeEventListener('change',reconcile);removeEventListener('pagehide',pageHide);removeEventListener('pageshow',pageShow);
 }
 function pageShow(event){if(event.persisted&&!disposed){const box=chapter.getBoundingClientRect();visible=box.top<innerHeight&&box.bottom>0;reconcile();}}
 addEventListener('pagehide',pageHide);addEventListener('pageshow',pageShow);reconcile();

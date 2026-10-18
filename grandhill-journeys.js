@@ -5,7 +5,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const compact = matchMedia('(max-height: 480px)');
   const mobile = matchMedia('(max-width: 700px)');
-  const media = new Map((window.AZIMUTE_MEDIA || []).map(item => [item.id, item]));
+  const media = new Map((window.GRANDHILL_MEDIA || []).map(item => [item.id, item]));
   const hasScroll = !!window.gsap && !!window.ScrollTrigger;
   const paused = () => reduced.matches || root.classList.contains('motion-paused') || root.classList.contains('viewer-open') || document.hidden;
   const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -107,7 +107,7 @@
       event.preventDefault();go(requested + (event.key === 'ArrowRight' ? 1 : -1));
     };
     prev.addEventListener('click', previous);next.addEventListener('click', following);section.addEventListener('keydown', keyboard);
-    const view = () => window.dispatchEvent(new CustomEvent('azimute:open-media', {detail:{id:Number(open.dataset.mediaId),origin:open,portrait:mobile.matches}}));
+    const view = () => window.dispatchEvent(new CustomEvent('grandhill:open-media', {detail:{id:Number(open.dataset.mediaId),origin:open,portrait:mobile.matches}}));
     open.addEventListener('click', view);
     function configure() {
       trigger?.kill();trigger = null;tween?.kill();request++;pending = null;section.removeAttribute('aria-busy');
@@ -137,10 +137,10 @@
     commit(0, request); configure();
     reduced.addEventListener('change', configure);compact.addEventListener('change', configure);
     const orientation = () => {readiness = new Map();prefetch(current);};mobile.addEventListener('change', orientation);
-    window.addEventListener('azimute:motion',motion);
-    cleanups.push(()=>{alive=false;request++;tween?.kill();trigger?.kill();near.disconnect();reduced.removeEventListener('change',configure);compact.removeEventListener('change',configure);mobile.removeEventListener('change',orientation);window.removeEventListener('azimute:motion',motion);prev.removeEventListener('click',previous);next.removeEventListener('click',following);open.removeEventListener('click',view);section.removeEventListener('keydown',keyboard);});
+    window.addEventListener('grandhill:motion',motion);
+    cleanups.push(()=>{alive=false;request++;tween?.kill();trigger?.kill();near.disconnect();reduced.removeEventListener('change',configure);compact.removeEventListener('change',configure);mobile.removeEventListener('change',orientation);window.removeEventListener('grandhill:motion',motion);prev.removeEventListener('click',previous);next.removeEventListener('click',following);open.removeEventListener('click',view);section.removeEventListener('keydown',keyboard);});
   });
-  document.querySelectorAll('.plan-card').forEach(button=>button.addEventListener('click',()=>window.dispatchEvent(new CustomEvent('azimute:open-media',{detail:{id:Number(button.dataset.mediaId),origin:button}}))));
+  document.querySelectorAll('.plan-card').forEach(button=>button.addEventListener('click',()=>window.dispatchEvent(new CustomEvent('grandhill:open-media',{detail:{id:Number(button.dataset.mediaId),origin:button}}))));
   if (hasScroll) {ScrollTrigger.refresh();document.fonts.ready.then(()=>requestAnimationFrame(()=>ScrollTrigger.refresh()));}
   window.addEventListener('pagehide',event=>{if(!event.persisted)cleanups.forEach(fn=>fn());});
 })();
