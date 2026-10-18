@@ -1,5 +1,48 @@
+# Dependencies
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment and Local Secrets
+.env
+.env*.local
+.env.local
+
+# Build and Deployment Output
 .vercel
-.DS_Store
-Thumbs.db
+dist/
+build/
+.cache/
+
+# Local Workspace and Temporary Caches
+.agent/
+.agents/
+.gemini/
+.system_generated/
+.tempmediaStorage/
+.user_uploaded/
+scratch/
 site.html
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace

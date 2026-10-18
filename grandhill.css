@@ -1,6 +1,6 @@
 /* ==========================================================================
    EXCLUSIVE GRANDHILL RESIDENCE - DESIGN SYSTEM & TYPOGRAPHY
-   Crafted in accordance with Impeccable Quality Standards
+   Architectural Monograph & Living Showcase
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
@@ -340,72 +340,78 @@ button:focus-visible, a:focus-visible {
 .hero__shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(23, 24, 23, 0.45), transparent 60%),
-              linear-gradient(0deg, rgba(20, 22, 20, 0.85), transparent 58%, rgba(20, 22, 20, 0.3));
+  background: linear-gradient(90deg, rgba(16, 20, 18, 0.72) 0%, rgba(16, 20, 18, 0.42) 42%, transparent 72%),
+              linear-gradient(0deg, rgba(16, 20, 18, 0.8) 0%, transparent 45%, rgba(16, 20, 18, 0.25) 100%);
 }
 
 .hero__content {
   position: absolute;
   inset: auto var(--gutter) 13%;
-  max-width: 1400px;
+  max-width: 960px;
 }
 
 .hero__location {
   display: flex;
   align-items: center;
-  gap: 16px;
-  color: #d9cbba;
+  gap: 14px;
+  color: #dfceb7;
   font-family: var(--sans);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  margin-bottom: 24px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
 }
 
 .hero__location > span {
-  width: 32px;
+  width: 24px;
   height: 1px;
   background: #dfb48d;
 }
 
 .hero h1 {
   font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(3.8rem, 8vw, 9.2rem);
+  font-weight: 300;
   line-height: 1;
-  letter-spacing: -0.025em;
-  margin: 0 0 36px;
+  margin: 0 0 32px;
 }
 
 .hero h1 > span {
   display: block;
   font-family: var(--display);
-  font-size: clamp(1.125rem, 2.5vw, 3.8rem);
-  letter-spacing: 0.06em;
+  font-size: clamp(1rem, 1.8vw, 2.2rem);
+  letter-spacing: 0.18em;
   font-weight: 500;
+  color: #dfceb7;
+  margin-bottom: 8px;
 }
 
 .hero h1 > em {
   display: block;
-  font-weight: 400;
-  font-style: italic;
-  font-size: 1.25em;
-  line-height: 0.95;
-  margin: 4px 0 0 5vw;
-  color: #edd5be;
+  font-family: var(--serif);
+  font-size: clamp(3.6rem, 7.5vw, 8.2rem);
+  font-weight: 300;
+  font-style: normal;
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  margin: 0;
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
 .hero__bottom {
   display: flex;
-  gap: 60px;
+  gap: 50px;
   align-items: flex-end;
 }
 
 .hero__bottom p {
   font-size: 1.0625rem;
   line-height: 1.75;
-  color: #f3e6d5;
+  color: #e5ded5;
   max-width: 440px;
+  font-weight: 300;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 }
 
 .explore {
@@ -1242,7 +1248,7 @@ h2 em {
     font-size: clamp(3rem, 13vw, 5.2rem);
   }
   .hero h1 > em {
-    margin-left: 5vw;
+    margin-left: 0;
   }
   .hero__bottom {
     display: block;

@@ -5,7 +5,7 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const tourIds=[22,16,17,15,13,8,21,24,19,3,4,23,26,31,30,29,32];
 const mediaById=new Map((window.GRANDHILL_MEDIA||[]).map(item=>[item.id,item]));
 let visible=false,booting=false,initialized=false,failed=false,disposed=false,currentIndex=0,refresh=()=>{},destroy=()=>{},jump=null;
-const fallback=document.createElement('img');fallback.className='architecture-still';fallback.alt='Architectural perspective';fallback.src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1672 941'%3E%3C/svg%3E";fallback.decoding='async';host.append(fallback);
+const fallback=document.createElement('img');fallback.className='architecture-still';fallback.alt='Architectural perspective';fallback.src="assets/acervo/estar-integrado-horizontal-1280.webp";fallback.decoding='async';host.append(fallback);
 const controls=document.createElement('div');controls.className='architecture-controls';controls.setAttribute('aria-label','Explore the 17 architectural perspectives');
 const caption=document.createElement('div');caption.className='architecture-photo-caption';
 const count=document.createElement('span');count.className='architecture-count';
@@ -184,7 +184,7 @@ async function start(){
     refresh=()=>{if(active()){unavailable.clear();pumpTextures();requestDraw();}else if(raf){cancelAnimationFrame(raf);raf=0;stats.active=false;canvas.dataset.renderActive='false';}};
     const contextLost=event=>{event.preventDefault();failed=true;chapter.classList.remove('cinema-ready');chapter.classList.add('cinema-fallback');syncPhotoControl();dispose();ScrollTrigger.refresh();};canvas.addEventListener('webglcontextlost',contextLost,{once:true});cleanups.push(()=>canvas.removeEventListener('webglcontextlost',contextLost));
     initialized=true;booting=false;syncPhotoControl();pumpTextures();refresh();
-  }catch(error){failed=true;booting=false;dispose();chapter.classList.remove('cinema-ready');chapter.classList.add('cinema-fallback');syncPhotoControl();window.ScrollTrigger?.refresh();console.info('Grandhill: all perspectives remain accessible.');}
+  }catch(error){failed=true;booting=false;dispose();chapter.classList.remove('cinema-ready');chapter.classList.add('cinema-fallback');syncPhotoControl();window.ScrollTrigger?.refresh();console.error('Grandhill cinema start failed:', error);console.info('Grandhill: all perspectives remain accessible.');}
 }
 function pageHide(event){
   if(event.persisted){visible=false;refresh();return;}disposed=true;observer.disconnect();destroy();controls.remove();fallback.remove();
